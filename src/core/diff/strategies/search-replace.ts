@@ -40,32 +40,26 @@ export class SearchReplaceDiffStrategy implements DiffStrategy {
 	}
 
 	getToolDescription(args: { cwd: string; toolOptions?: { [key: string]: string } }): string {
-		return `## apply_diff
-Description: Request to replace existing code using a search and replace block.
-This tool allows for precise, surgical replaces to files by specifying exactly what content to search for and what to replace it with.
-The tool will maintain proper indentation and formatting while making changes.
-Only a single operation is allowed per tool use.
-The SEARCH section must exactly match existing content including whitespace and indentation.
-If you're not confident in the exact content to search for, use the read_file tool first to get the exact content.
-When applying the diffs, be extra careful to remember to change any closing brackets or other syntax that may be affected by the diff farther down in the file.
+		return `
+## apply_diff 
+Description: Update code by providing exact search content and replacement. Maintains formatting. One operation per use.
 
 Parameters:
-- path: (required) The path of the file to modify (relative to the current working directory ${args.cwd})
-- diff: (required) The search/replace block defining the changes.
-- start_line: (required) The line number where the search block starts.
-- end_line: (required) The line number where the search block ends.
+- path: (required) File path relative to working directory
+- diff: (required) Search/replace block
+- start_line: (required) Starting line number
+- end_line: (required) Ending line number
 
 Diff format:
 \`\`\`
 <<<<<<< SEARCH
-[exact content to find including whitespace]
+[exact content to find with whitespace]
 =======
-[new content to replace with]
+[new content]
 >>>>>>> REPLACE
 \`\`\`
 
 Example:
-
 Original file:
 \`\`\`
 1 | def calculate_total(items):
@@ -75,8 +69,10 @@ Original file:
 5 |     return total
 \`\`\`
 
-Search/Replace content:
-\`\`\`
+Usage:
+<apply_diff>
+<path>file.py</path>
+<diff>
 <<<<<<< SEARCH
 def calculate_total(items):
     total = 0
@@ -88,17 +84,11 @@ def calculate_total(items):
     """Calculate total with 10% markup"""
     return sum(item * 1.1 for item in items)
 >>>>>>> REPLACE
-\`\`\`
-
-Usage:
-<apply_diff>
-<path>File path here</path>
-<diff>
-Your search/replace content here
 </diff>
 <start_line>1</start_line>
 <end_line>5</end_line>
-</apply_diff>`
+</apply_diff>
+`
 	}
 
 	async applyDiff(
