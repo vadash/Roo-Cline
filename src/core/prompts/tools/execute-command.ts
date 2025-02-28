@@ -1,17 +1,14 @@
 import { ToolArgs } from "./types"
 
 export function getExecuteCommandDescription(args: ToolArgs): string | undefined {
-	return `## execute_command
-Description: Request to execute a CLI command on the system. Use this when you need to perform system operations or run specific commands to accomplish any step in the user's task. You must tailor your command to the user's system and provide a clear explanation of what the command does. For command chaining, use the appropriate chaining syntax for the user's shell. Prefer to execute complex CLI commands over creating executable scripts, as they are more flexible and easier to run. Commands will be executed in the current working directory: ${args.cwd}
+	return `
+## execute_command
+Description: Request CLI command execution on system. Use for system operations or specific commands. Tailor command to user system, provide clear explanation. For command chaining, use appropriate syntax. Prefer complex CLI commands over executable scripts. Commands executed in current directory: ${args.cwd}
 Parameters:
-- command: (required) The CLI command to execute. This should be valid for the current operating system. Ensure the command is properly formatted and does not contain any harmful instructions.
+- command: (required) CLI command to execute. Must be valid for current OS without harmful instructions.
 Usage:
 <execute_command>
 <command>Your command here</command>
 </execute_command>
-
-Example: Requesting to execute npm run dev
-<execute_command>
-<command>npm run dev</command>
-</execute_command>`
+`
 }
