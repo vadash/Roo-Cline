@@ -40,21 +40,14 @@ export class SearchReplaceDiffStrategy implements DiffStrategy {
 	}
 
 	getToolDescription(args: { cwd: string; toolOptions?: { [key: string]: string } }): string {
-		return `## apply_diff
-Description: Request to replace existing code using a search and replace block.
-This tool allows for precise, surgical replaces to files by specifying exactly what content to search for and what to replace it with.
-The tool will maintain proper indentation and formatting while making changes.
-Only a single operation is allowed per tool use.
-The SEARCH section must exactly match existing content including whitespace and indentation.
-If you're not confident in the exact content to search for, use the read_file tool first to get the exact content.
-When applying the diffs, be extra careful to remember to change any closing brackets or other syntax that may be affected by the diff farther down in the file.
-
+		return `
+## apply_diff
+Description: Replace existing code using search/replace block. Allows precise changes to files by specifying content to search/replace. Maintains proper indentation/formatting. Only single operation allowed per tool use. SEARCH section must exactly match existing content including whitespace/indentation. If unsure about exact content, use read_file tool first. Be careful to change any closing brackets or syntax affected by diff.
 Parameters:
-- path: (required) The path of the file to modify (relative to the current working directory ${args.cwd})
-- diff: (required) The search/replace block defining the changes.
-- start_line: (required) The line number where the search block starts.
-- end_line: (required) The line number where the search block ends.
-
+- path: (required) File path to modify (relative to ${args.cwd})
+- diff: (required) Search/replace block defining changes
+- start_line: (required) Line number where search block starts
+- end_line: (required) Line number where search block ends
 Diff format:
 \`\`\`
 <<<<<<< SEARCH
@@ -63,9 +56,7 @@ Diff format:
 [new content to replace with]
 >>>>>>> REPLACE
 \`\`\`
-
 Example:
-
 Original file:
 \`\`\`
 1 | def calculate_total(items):
@@ -74,7 +65,6 @@ Original file:
 4 |         total += item
 5 |     return total
 \`\`\`
-
 Search/Replace content:
 \`\`\`
 <<<<<<< SEARCH
@@ -89,16 +79,14 @@ def calculate_total(items):
     return sum(item * 1.1 for item in items)
 >>>>>>> REPLACE
 \`\`\`
-
 Usage:
 <apply_diff>
 <path>File path here</path>
-<diff>
-Your search/replace content here
-</diff>
+<diff>Your search/replace content here</diff>
 <start_line>1</start_line>
 <end_line>5</end_line>
-</apply_diff>`
+</apply_diff>
+`
 	}
 
 	async applyDiff(
