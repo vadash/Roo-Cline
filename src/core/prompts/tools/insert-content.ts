@@ -1,13 +1,14 @@
 import { ToolArgs } from "./types"
 
 export function getInsertContentDescription(args: ToolArgs): string {
-	return `## insert_content
-Description: Inserts content at specific line positions in a file. This is the primary tool for adding new content and code (functions/methods/classes, imports, attributes etc.) as it allows for precise insertions without overwriting existing content. The tool uses an efficient line-based insertion system that maintains file integrity and proper ordering of multiple insertions. Beware to use the proper indentation. This tool is the preferred way to add new content and code to files.
+	return `
+## insert_content
+Description: Inserts content at line positions in file. Primary tool add new code (functions, methods, classes, imports, attributes) for precise insertions, no overwrite. Efficient line-based system maintains file integrity, correct order. Use proper indentation. Preferred way add code to files.
 Parameters:
-- path: (required) The path of the file to insert content into (relative to the current working directory ${args.cwd.toPosix()})
-- operations: (required) A JSON array of insertion operations. Each operation is an object with:
-    * start_line: (required) The line number where the content should be inserted.  The content currently at that line will end up below the inserted content.
-    * content: (required) The content to insert at the specified position. IMPORTANT NOTE: If the content is a single line, it can be a string. If it's a multi-line content, it should be a string with newline characters (\n) for line breaks. Make sure to include the correct indentation for the content.
+- path: (required) File path for content insertion (relative to ${args.cwd.toPosix()})
+- operations: (required) JSON array of insert operations. Each operation is object:
+    * start_line: (required) Line number for insert. Current line content moves below
+    * content: (required) Content to insert. NOTE: Single-line: string. Multi-line: string with \n for breaks. Use correct indentation
 Usage:
 <insert_content>
 <path>File path here</path>
@@ -18,7 +19,7 @@ Usage:
   }
 ]</operations>
 </insert_content>
-Example: Insert a new function and its import statement
+Example: Insert function and import
 <insert_content>
 <path>File path here</path>
 <operations>[
@@ -31,5 +32,6 @@ Example: Insert a new function and its import statement
     "content": "function calculateTotal(items: number[]): number {\n    return items.reduce((sum, item) => sum + item, 0);\n}"
   }
 ]</operations>
-</insert_content>`
+</insert_content>
+`
 }
