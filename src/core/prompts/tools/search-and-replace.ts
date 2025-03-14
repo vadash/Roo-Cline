@@ -1,18 +1,19 @@
 import { ToolArgs } from "./types"
 
 export function getSearchAndReplaceDescription(args: ToolArgs): string {
-	return `## search_and_replace
-Description: Request to perform search and replace operations on a file. Each operation can specify a search pattern (string or regex) and replacement text, with optional line range restrictions and regex flags. Shows a diff preview before applying changes.
+	return `
+## search_and_replace
+Description: Search replace file operations. Each operation specify search (string/regex), replace text, optional line range, regex flags. Diff preview before apply
 Parameters:
-- path: (required) The path of the file to modify (relative to the current working directory ${args.cwd.toPosix()})
-- operations: (required) A JSON array of search/replace operations. Each operation is an object with:
-    * search: (required) The text or pattern to search for
-    * replace: (required) The text to replace matches with. If multiple lines need to be replaced, use "\n" for newlines
-    * start_line: (optional) Starting line number for restricted replacement
-    * end_line: (optional) Ending line number for restricted replacement
-    * use_regex: (optional) Whether to treat search as a regex pattern
-    * ignore_case: (optional) Whether to ignore case when matching
-    * regex_flags: (optional) Additional regex flags when use_regex is true
+- path: File path (relative cwd ${args.cwd.toPosix()})
+- operations: JSON search/replace operations. Each operation:
+    * search: Text/pattern
+    * replace: Replace text. Multi-line replace, use "\n"
+    * start_line: Start line restrict
+    * end_line: End line restrict
+    * use_regex: Regex search
+    * ignore_case: Ignore case
+    * regex_flags: Regex flags use_regex
 Usage:
 <search_and_replace>
 <path>File path here</path>
@@ -48,5 +49,6 @@ Example: Replace all occurrences of "old" with "new" using regex
     "ignore_case": true
   }
 ]</operations>
-</search_and_replace>`
+</search_and_replace>
+`
 }
